@@ -1,0 +1,56 @@
+<ejs-sidebar id="default" #leftSidebar [width]='width' [type]='type'>
+    <ejs-autocomplete id='atcelement' [dataSource]='searchData' [fields]='fields' [placeholder]='text' [highlight]='highlight'></ejs-autocomplete>
+    <ejs-treeview id='e-treeview' #treevalidate [fields]='field' [showCheckBox]=false [autoCheck]=false
+        (nodeChecked)='nodeChecked($event)'>
+        <!-- Template    to render tree node -->
+        <ng-template #nodeTemplate="" let-data="">
+            <div>
+                <span class="e-icons e-edit" style="margin:6px"(click)="showRightToggle($event)">{{data.title}}</span>
+            </div>
+        </ng-template>
+    </ejs-treeview>
+
+</ejs-sidebar>
+
+<div class="e-main-content">
+
+    <div id="button-align">
+        <button ejs-button id="toggle" class="e-btn e-info" (click)="leftToggle()">Toggle Sidebar 1</button>
+    </div>
+    <div id="button-align">
+        <button ejs-button id="toggle2" class="e-btn e-info" (click)="rightToggle()">Toggle Sidebar 2</button>
+    </div>
+
+    <div id="button-align">
+        <ejs-chart id='chartcontainer' [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]=''
+            [tooltip]='tooltip'>
+            <e-series-collection>
+                <e-series drawType='Column' name='{{title}}' [dataSource]='data' type='Polar' xName='x' yName='y'
+                    drawType='Line' [marker]='marker' tooltipMappingName='text'>
+                </e-series>
+            </e-series-collection>
+        </ejs-chart>
+    </div>
+
+</div>
+
+<ejs-sidebar id="default1" #rightSidebar [width]='widthRight' [position]='position' [type]='type'>
+
+    <button class="e-btn e-info" (click)='dataSourceChanged()'>Change
+        Datasource</button>
+    <ejs-spreadsheet #spreadsheetObj [showRibbon]="false" [showFormulaBar]="showFormulaBar" z>
+        <e-sheets>
+            <e-sheet>
+                <e-ranges>
+                    <e-range [dataSource]='data'></e-range>
+                </e-ranges>
+                <e-columns>
+                    <e-column [width]=90></e-column>
+                    <e-column [width]=100></e-column>
+                    <e-column [width]=96></e-column>
+                </e-columns>
+            </e-sheet>
+        </e-sheets>
+    </ejs-spreadsheet>
+
+</ejs-sidebar>
