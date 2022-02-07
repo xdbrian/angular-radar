@@ -51,7 +51,7 @@ export let DATAMOCK: Object[] =
       id:'2022',
         title: 'EXCELENCIA OPERACIONAL',
         icon: "folder",
-        isChecked: false,        
+        isChecked: true,
         primaryXAxis: {
           valueType: 'Category',
           labelPlacement: 'OnTicks',        
