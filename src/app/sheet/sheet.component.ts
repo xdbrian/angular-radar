@@ -119,12 +119,8 @@ export class SheetComponent implements OnInit {
     })
   }
 
-  changeDataSource(): void {
-    
-   this. dataSourceChanged(null)
-  }
 
-  dataSourceChanged(args: any): void {
+  dataSourceChanged(): void {
     
         let jsonObject: any[] = [];
         let cell: any[] = []
@@ -150,7 +146,10 @@ export class SheetComponent implements OnInit {
         Object.assign(dataitem, this.mock[this.selectedIndex])
         dataitem.data = jsonObject.slice(1)
         this.mock[this.selectedIndex] = dataitem
-        this.data[this.selectedIndex].data = jsonObject.slice(1)    
+        let item = jsonObject.slice(1)  
+        console.log('item')
+        console.log(item)
+        this.data[this.selectedIndex].data = item
   }
 
   isValid(item: any, back: any) {
