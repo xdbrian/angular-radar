@@ -1,6 +1,6 @@
 <ejs-sidebar id="default" #leftSidebar [width]='width' [type]='type'>
-    <ejs-autocomplete id='atcelement' [dataSource]='searchData' [fields]='fields' [placeholder]='text' [highlight]='highlight'></ejs-autocomplete>
-    <ejs-treeview id='e-treeview' #treevalidate [fields]='field' [showCheckBox]=false [autoCheck]=false
+    <ejs-autocomplete id='atcelement' [dataSource]='data' [fields]='fields' [placeholder]='text' [highlight]='highlight'></ejs-autocomplete>
+    <ejs-treeview id='e-treeview' #treevalidate [fields]='field' [showCheckBox]=true [autoCheck]=true
         (nodeChecked)='nodeChecked($event)'>
         <!-- Template    to render tree node -->
         <ng-template #nodeTemplate="" let-data="">
@@ -22,10 +22,10 @@
     </div>
 
     <div id="button-align">
-        <ejs-chart id='chartcontainer' [primaryXAxis]='primaryXAxis' [primaryYAxis]='primaryYAxis' [title]=''
-            [tooltip]='tooltip'>
+        <ejs-chart #chart *ngIf="dataRadar.length>0" [primaryXAxis]='dataRadar[selected].primaryXAxis' [primaryYAxis]='dataRadar[selected].primaryYAxis' [title]=''
+            [tooltip]='dataRadar[selected].tooltip'>
             <e-series-collection>
-                <e-series drawType='Column' name='{{title}}' [dataSource]='data' type='Polar' xName='x' yName='y'
+                <e-series *ngFor="let item of ( dataRadar | yesNo )" drawType='Column' name='{{item.title}}' [dataSource]='item.data' type='Polar' xName='x' yName='y'
                     drawType='Line' [marker]='marker' tooltipMappingName='text'>
                 </e-series>
             </e-series-collection>
@@ -38,11 +38,11 @@
 
     <button class="e-btn e-info" (click)='dataSourceChanged()'>Change
         Datasource</button>
-    <ejs-spreadsheet #spreadsheetObj [showRibbon]="false" [showFormulaBar]="showFormulaBar" z>
+    <ejs-spreadsheet *ngIf="data.length > 0" #spreadsheetObj [showRibbon]="false" [showFormulaBar]="showFormulaBar">
         <e-sheets>
             <e-sheet>
                 <e-ranges>
-                    <e-range [dataSource]='data'></e-range>
+                    <e-range  [dataSource]='this.data[selected].data'></e-range>
                 </e-ranges>
                 <e-columns>
                     <e-column [width]=90></e-column>

@@ -17,6 +17,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { YesNoPipe } from './yes-no.pipe';
 
 const environment = {
   production: false,
@@ -34,7 +35,8 @@ const environment = {
 @NgModule({
   declarations: [
     AppComponent,
-    SheetComponent,    
+    SheetComponent,
+    YesNoPipe,    
   ],
   imports: [
     BrowserModule,
