@@ -1,8 +1,3 @@
-
-.e-treeview {
-  height: 100% !important;
-}
-
 #container {
     visibility: hidden;
 }
@@ -16,15 +11,63 @@
   left: 45%;
 }
 
-  .e-treeview .e-list-icon {
-    background-repeat: no-repeat;
-    background-image: url(https://ej2.syncfusion.com/javascript/demos/src/treeview/images/icons/file_icons.png);
-  }
-  .e-treeview .e-list-icon.folder { background-position: -10px -552px }
-  .e-treeview .e-list-icon.audio { background-position: -10px -244px }
-  .e-treeview .e-list-icon.video { background-position: -10px -272px }
-
-.edit-icon::before {
-content: '\e84e';
+.e-treeview .e-ul {
+  padding: 0px !important;
+}
+.e-treeview .e-text-content{
+  padding: 0px !important;
 }
 
+
+
+
+  .head {
+   
+    border-bottom-color: transparent;
+    background: #00897B !important;
+    height: 41px;
+  
+}
+
+.head .e-toolbar-items {
+     
+  border-bottom-color: transparent;
+  background: #00897B !important;
+  height: 41px;
+}
+
+.title {
+  top: 41px !important;
+}
+
+/*icons*/
+.edit-icon:before {
+  content: '\e891';
+  }
+  
+  
+  .search-icon:before {
+    content: '\e993';
+    }
+.chevron-right-3:before {
+  content: '\e22f';
+}
+
+
+.save-3:before {
+  content: '\ec11';
+}
+
+/* Added when toggle button is in active state*/
+.previous:before {
+  content: '\ec06';
+}
+
+/* Added when toggle button is not in active state*/
+.e-pause-icon:before {
+  content: '\e701';
+}
+
+.justify:before {
+  content: '\e334';
+}

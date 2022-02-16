@@ -12,6 +12,7 @@ import { SidebarModule } from '@syncfusion/ej2-angular-navigations';
 import { TreeViewModule } from '@syncfusion/ej2-angular-navigations';
 import { AutoCompleteModule } from '@syncfusion/ej2-angular-dropdowns'; 
 
+import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 //import { YesNoPipe } from './yes-no.pipe';
 
 
@@ -40,6 +41,8 @@ import { AutoCompleteModule } from '@syncfusion/ej2-angular-dropdowns';
     AutoCompleteModule,
 
     BrowserModule,
+
+    ToolbarModule
   ],
   providers: [ AreaSeriesService, LineSeriesService, ExportService, ColumnSeriesService, StackingColumnSeriesService, StackingAreaSeriesService, RangeColumnSeriesService, ScatterSeriesService, PolarSeriesService, CategoryService, RadarSeriesService, SplineSeriesService],
   bootstrap: [AppComponent]

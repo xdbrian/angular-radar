@@ -6,6 +6,7 @@ import { TreeViewComponent, NodeCheckEventArgs } from '@syncfusion/ej2-angular-n
 //import { AngularFirestore } from '@angular/fire/firestore'
 import { ChartComponent, SeriesModel } from '@syncfusion/ej2-angular-charts';
 import { DataSourceChangedEventArgs } from '@syncfusion/ej2-spreadsheet';
+
 @Component({
   selector: 'app-sheet',
   templateUrl: './sheet.component.html',
@@ -19,25 +20,61 @@ export class SheetComponent implements OnInit {
   public text: string = "Buscar radar";
   //enable the highlight property to highlight the matched character in suggestion list
   public highlight: Boolean = true;
+  //Habilita la opción de seleccionar multiples radar y mostrarlos en un sólo
+  public isShowCheckBox: Boolean = true
 
   @ViewChild('treevalidate') tree?: TreeViewComponent;
   @ViewChild('chart') public chart: ChartComponent | undefined;
+  @ViewChild('spreadsheetObj') spreadsheetObj: SpreadsheetComponent | undefined;  
+  @ViewChild('leftSidebar') leftSidebar: SidebarComponent | undefined;
+  @ViewChild('rightSidebar') rightSidebar: SidebarComponent | undefined;
+
+  public listCheckedSelectedRadar: string[] = []
+  public selectedId: string = '0'
+  public selectedIndex: number = 0
+  public title: string = ""
+  public dataMenuLeft: radar[] = []
+  public dataRadar: radar[] = []
+  public mock: any[] = DATAMOCK
+  public field: Object = { dataSource: this.dataMenuLeft, id: 'nodeId'};
+
+  public showFormulaBar: Boolean = false
+  public tooltip: Object = {}
+
+  public primaryXAxis: Object = {}
+  //Initializing Primary Y Axis
+  public primaryYAxis: Object = {}
+
+  public width: string = '250px';
+  public widthRight: string = '400px';
+  public position: string = 'Right';
+  public type: string = 'Push';
+  public marker: Object = { visible: true, width: 10, height: 10, dataLabel: { name: 'x' } };
+  
+
   public nodeChecked(args: NodeCheckEventArgs): void {
 
     let position = args.data[0]["id"]
 
-    let itemUpdate: radar = this.data.find(itemSearch => { return itemSearch.id == position }) as radar
+    console.log('position')
+    console.log(position)
+
+    let itemUpdate: radar = this.dataMenuLeft.find(itemSearch => { return itemSearch.id == position }) as radar
     itemUpdate.isChecked = args.action == "check" ? true : false
 
-    if (this.chart) {
-      this.dataRadar=[]
-      this.chart.destroy();      
-      Object.assign(this.dataRadar, this.data.filter(item => item.isChecked == true))
+    if (args.data.length > 0) {
 
-     setTimeout(() => {
-      this.chart?.refresh();
-    })
-      
+      if (this.chart)
+        //this.chart.destroy();
+
+      this.dataRadar = []
+
+      Object.assign(this.dataRadar, this.dataMenuLeft.filter(item => item.isChecked == true))
+
+      setTimeout(() => {
+        this.chart?.refresh();        
+      })
+
     }
 
     console.log('this.dataRadar')
@@ -54,102 +91,72 @@ export class SheetComponent implements OnInit {
    */
   }
 
-  public listCheckedSelectedRadar: string[] = []
-  public selectedId: string = '0'
-  public selectedIndex: number = 0
-  public title: string = ""
-  public data: radar[] = []
-  public dataRadar: radar[] = []
-  public mock: any[] = DATAMOCK
-  public field: Object = { dataSource: this.mock, id: 'nodeId', text: 'title', iconCss: 'icon' };
-
-  public showFormulaBar: Boolean = false
-  public tooltip: Object = {}
-
-  @ViewChild('spreadsheetObj') spreadsheetObj: SpreadsheetComponent | undefined;
-
-  public primaryXAxis: Object = {}
-  //Initializing Primary Y Axis
-  public primaryYAxis: Object = {}
-
-  @ViewChild('leftSidebar') leftSidebar: SidebarComponent | undefined;
-  @ViewChild('rightSidebar') rightSidebar: SidebarComponent | undefined;
-
-  public width: string = '250px';
-  public widthRight: string = '400px';
-  public position: string = 'Right';
-  public type: string = 'Push';
-  public marker: Object = { visible: true, width: 10, height: 10, dataLabel: { name: 'x' } };
-
   constructor(/*db: AngularFirestore*/) {
-    let dataitem = new radar()
     this.mock.forEach(element => {
-      dataitem = new radar()
-      Object.assign(dataitem, element)
-      this.data.push(dataitem)
-      this.tooltip = dataitem.tooltip
-      this.primaryYAxis = dataitem.primaryYAxis
-      this.primaryXAxis = dataitem.primaryXAxis
+      this.dataMenuLeft.push(element)
+      this.tooltip = element.tooltip
+      this.primaryYAxis = element.primaryYAxis
+      this.primaryXAxis = element.primaryXAxis
     });
     this.mock.forEach((value: radar, index: number) => { value.nodeId = +value.id })
 
-    console.log(this.data)
-    this.dataRadar = this.data.filter(item => item.isChecked)
+    console.log(this.dataMenuLeft)
+    this.dataRadar = this.dataMenuLeft.filter(item => item.isChecked)
   }
 
   uploadRadar(positionsChecked: any[]): void {
-    this.data.forEach(item => { item.isChecked = false })
+    this.dataMenuLeft.forEach(item => { item.isChecked = false })
     positionsChecked.forEach(checked => {
       if (checked) {
         console.log('checked.node')
         console.log(checked)
-        this.data[checked].isChecked = true
+        this.dataMenuLeft[checked].isChecked = true
       }
 
     })
 
     console.log('uploadRadar')
-    console.log(this.data)
+    console.log(this.dataMenuLeft)
 
   }
 
   ngOnInit(): void {
     setTimeout(() => {
-    this.leftToggle()
+      this.leftToggle()
     })
   }
 
 
   dataSourceChanged(): void {
-    
-        let jsonObject: any[] = [];
-        let cell: any[] = []
-    
-        this.spreadsheetObj?.getActiveSheet().rows?.map(item => {
-          let xValue: any
-          let yValue: any
-          let zValue: any
-          item?.cells?.forEach((dato, key) => {
-            if (key == 0)
-              zValue = dato.value
-            else if (key == 1)
-              xValue = dato.value
-            else
-              yValue = dato.value
-          })
-          return { "text": zValue, "x": xValue, "y": yValue }
-        }).forEach(final => {
-          jsonObject.push(final)
-        })
-    
-        let dataitem = new radar()
-        Object.assign(dataitem, this.mock[this.selectedIndex])
-        dataitem.data = jsonObject.slice(1)
-        this.mock[this.selectedIndex] = dataitem
-        let item = jsonObject.slice(1)  
-        console.log('item')
-        console.log(item)
-        this.data[this.selectedIndex].data = item
+
+    let jsonObject: any[] = [];
+    let cell: any[] = []
+
+    this.spreadsheetObj?.getActiveSheet().rows?.map(item => {
+      let xValue: any
+      let yValue: any
+      let zValue: any
+      item?.cells?.forEach((dato, key) => {
+        if (key == 0)
+          zValue = dato.value
+        else if (key == 1)
+          xValue = dato.value
+        else
+          yValue = dato.value
+      })
+      return { "text": zValue, "x": xValue, "y": yValue }
+    }).forEach(final => {
+      jsonObject.push(final)
+    })
+
+    let dataitem = new radar()
+    Object.assign(dataitem, this.mock[this.selectedIndex])
+    dataitem.data = jsonObject.slice(1)
+    this.mock[this.selectedIndex] = dataitem
+    let item = jsonObject.slice(1)
+    console.log('item')
+    console.log(item)
+    this.dataMenuLeft[this.selectedIndex].data = item
   }
 
   isValid(item: any, back: any) {
@@ -158,18 +165,22 @@ export class SheetComponent implements OnInit {
 
   leftToggle() {
     this.leftSidebar?.toggle();
-    this.showFormulaBar = !this.showFormulaBar
+    this.showFormulaBar = true
+    this.showFormulaBar = false
   }
   rightToggle() {
     this.spreadsheetObj?.refresh()
-    this.rightSidebar?.toggle();    
+    this.rightSidebar?.toggle();
   }
 
   showRightToggle(args?: any) {
     this.selectedId = args
-    this.selectedIndex= this.data.findIndex(item=>{return item.id==args})
+    this.selectedIndex = this.dataMenuLeft.findIndex(item => { return item.id == args })
     this.spreadsheetObj?.refresh()
     this.rightSidebar?.show()
   }
+
+
+
 
 }

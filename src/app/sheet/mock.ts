@@ -15,7 +15,7 @@ export let DATAMOCK: Object[] =
       id:'2021',
       title: 'Team Enrolamiento',
       icon: "folder",     
-      isChecked: true,
+      isChecked: false,
       primaryXAxis: {
         valueType: 'Category',
         labelPlacement: 'OnTicks',        

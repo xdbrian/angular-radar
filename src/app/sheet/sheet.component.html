@@ -1,22 +1,34 @@
-<ejs-sidebar id="default" #leftSidebar [width]='width' [type]='type'>
-    <ejs-autocomplete id='atcelement' [dataSource]='data' [fields]='fields' [placeholder]='text' [highlight]='highlight'></ejs-autocomplete>
-    <ejs-treeview id='e-treeview' #treevalidate [fields]='field' [showCheckBox]=true [autoCheck]=true
+<div class="head">
+    <ejs-toolbar class="head">
+        <e-items>
+           <e-item class="head" prefixIcon = 'justify tb-icons' (click)='leftToggle()'></e-item>
+           <e-item type='Separator'></e-item> 
+        </e-items>
+      </ejs-toolbar>
+</div>
+<ejs-sidebar id="default" class="title" #leftSidebar [width]='width' [type]='type'>
+    <ejs-toolbar>
+        <e-items>
+           <e-item prefixIcon = 'edit-icon tb-icons' showTextOn ='Overflow'></e-item>
+           <e-item type='Separator'></e-item>
+           <e-item prefixIcon = 'search-icon tb-icons' showTextOn ='Overflow'></e-item>           
+        </e-items>
+      </ejs-toolbar>
+    <ejs-autocomplete id='atcelement' [dataSource]='dataMenuLeft' [fields]='fields' [placeholder]='text' [highlight]='highlight'></ejs-autocomplete>
+    <ejs-treeview id='e-treeview' #treevalidate [fields]='field' [showCheckBox]='isShowCheckBox' [autoCheck]=true
         (nodeChecked)='nodeChecked($event)'>
         <!-- Template    to render tree node -->
         <ng-template #nodeTemplate="" let-data="">
             <div>
-                <span class="e-icons e-edit" style="margin:6px"(click)="showRightToggle(data.id)">{{data.title}}</span>
+                <span class="e-icons e-edit" (click)="showRightToggle(data.id)"></span>
+                <span  style="margin:6px">{{data.title}}</span>
             </div>
         </ng-template>
     </ejs-treeview>
 
 </ejs-sidebar>
 
-<div class="e-main-content">
-
-    <div id="button-align">
-        <button ejs-button id="toggle" class="e-btn e-info" (click)="leftToggle()">Toggle Sidebar 1</button>
-    </div>
+<div class="e-main-content title">
 
     <div id="button-align">
         <ejs-chart #chart *ngIf="dataRadar.length>0" 
@@ -25,6 +37,7 @@
             [title]=''
             [tooltip]='dataRadar[selectedIndex].tooltip'>
             <e-series-collection>
+             
                 <e-series *ngFor="let item of ( dataRadar )" drawType='Column' name='{{item.title}}' [dataSource]='item.data' type='Polar' xName='x' yName='y'
                     drawType='Line' [marker]='marker' tooltipMappingName='text'>
                 </e-series>
@@ -35,13 +48,19 @@
 </div>
 
 <ejs-sidebar id="default1" #rightSidebar [width]='widthRight' [position]='position' [type]='type'>
+    <ejs-toolbar>
+        <e-items>
+           <e-item prefixIcon = 'save-3 tb-icons' showTextOn ='Overflow' (click)='dataSourceChanged()' ></e-item>
+           <e-item type='Separator'></e-item>
+           <e-item prefixIcon = 'chevron-right-3 tb-icons' showTextOn ='Overflow' (click)='rightToggle()'></e-item>           
+        </e-items>
+      </ejs-toolbar>
 
-    <button class="e-btn e-info" (click)='dataSourceChanged()'>Guardar</button>
     <ejs-spreadsheet #spreadsheetObj  [showRibbon]="false" [showFormulaBar]="showFormulaBar">
         <e-sheets>
             <e-sheet>
                 <e-ranges>
-                    <e-range  [dataSource]='data[selectedIndex].data'></e-range>
+                    <e-range  [dataSource]='dataMenuLeft[selectedIndex].data'></e-range>
                 </e-ranges>
                 <e-columns>
                     <e-column [width]=90></e-column>
