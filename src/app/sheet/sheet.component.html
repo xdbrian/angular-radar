@@ -3,33 +3,15 @@
         <e-items>
            <e-item class="head" prefixIcon = 'justify tb-icons' (click)='leftToggle()'></e-item>
            <e-item type='Separator'></e-item> 
-        </e-items>
+           <e-item prefixIcon = 'folder-open tb-icons' showTextOn ='Overflow' (click)="showFormToogle()"></e-item>
+           <e-item type='Separator'></e-item>       
+           <e-item prefixIcon = 'folder-open tb-icons' showTextOn ='Overflow' (click)="dialogForm.onOpenDialogForm()"></e-item>                   
+        </e-items>        
       </ejs-toolbar>
 </div>
-<ejs-sidebar id="default" class="title" #leftSidebar [width]='width' [type]='type'>
-    <ejs-toolbar>
-        <e-items>
-           <e-item prefixIcon = 'edit-icon tb-icons' showTextOn ='Overflow'></e-item>
-           <e-item type='Separator'></e-item>
-           <e-item prefixIcon = 'search-icon tb-icons' showTextOn ='Overflow'></e-item>           
-        </e-items>
-      </ejs-toolbar>
-    <ejs-autocomplete id='atcelement' [dataSource]='dataMenuLeft' [fields]='fields' [placeholder]='text' [highlight]='highlight'></ejs-autocomplete>
-    <ejs-treeview id='e-treeview' #treevalidate [fields]='field' [showCheckBox]='isShowCheckBox' [autoCheck]=true
-        (nodeChecked)='nodeChecked($event)'>
-        <!-- Template    to render tree node -->
-        <ng-template #nodeTemplate="" let-data="">
-            <div>
-                <span class="e-icons e-edit" (click)="showRightToggle(data.id)"></span>
-                <span  style="margin:6px">{{data.title}}</span>
-            </div>
-        </ng-template>
-    </ejs-treeview>
 
-</ejs-sidebar>
-
-<div class="e-main-content title">
-
+<div class="e-main-content title root-container">    
+    
     <div id="button-align">
         <ejs-chart #chart *ngIf="dataRadar.length>0" 
             [primaryXAxis]='dataRadar[selectedIndex].primaryXAxis' 
@@ -44,10 +26,32 @@
             </e-series-collection>
         </ejs-chart>
     </div>
-
+    
+ <form-dialog #dialogForm></form-dialog>
 </div>
 
-<ejs-sidebar id="default1" #rightSidebar [width]='widthRight' [position]='position' [type]='type'>
+<ejs-sidebar id="default" class="title" #leftSidebar [width]='width' [type]='type'>
+    <ejs-toolbar>
+        <e-items>            
+           <e-item prefixIcon = 'edit-icon tb-icons' showTextOn ='Overflow'></e-item>
+           <e-item type='Separator'></e-item>
+           <e-item prefixIcon = 'search-icon tb-icons' showTextOn ='Overflow'></e-item>           
+        </e-items>
+      </ejs-toolbar>
+    <ejs-autocomplete [(value)]='valueFilter' (change)="changeDataSource(this)" id='textFilter' [dataSource]='dataMenuLeft' [fields]='fields' [placeholder]='text' [highlight]='highlight' ></ejs-autocomplete>
+    <ejs-treeview id='e-treeview' #treevalidate [fields]='field' [showCheckBox]='isShowCheckBox' [autoCheck]=true
+        (nodeChecked)='nodeChecked($event)'>
+        <!-- Template    to render tree node -->
+        <ng-template #nodeTemplate="" let-data="">
+            <div>
+                <span class="e-icons e-edit" (click)="showRightToggle(data.id)"></span>
+                <span  style="margin:6px">{{data.title}}</span>
+            </div>
+        </ng-template>
+    </ejs-treeview>
+     
+</ejs-sidebar>
+<ejs-sidebar id="default1" #rightSidebar [width]='widthRight' [position]='position' [type]="'Over'">
     <ejs-toolbar>
         <e-items>
            <e-item prefixIcon = 'save-3 tb-icons' showTextOn ='Overflow' (click)='dataSourceChanged()' ></e-item>
@@ -70,5 +74,29 @@
             </e-sheet>
         </e-sheets>
     </ejs-spreadsheet>
-
+    
 </ejs-sidebar>
+
+<ejs-sidebar id="formSidebar" class="title" #formSidebar [width]='"500px"' [type]="'Over'">
+    <ejs-toolbar>
+         <e-items>
+            <e-item prefixIcon = 'edit-icon tb-icons' showTextOn ='Overflow'></e-item>
+            <e-item type='Separator'></e-item>
+            <e-item prefixIcon = 'search-icon tb-icons' showTextOn ='Overflow'></e-item>           
+         </e-items>
+       </ejs-toolbar>    
+
+       <ejs-autocomplete [(value)]='valueFilter' (change)="changeDataSource(this)" id='textFilterTeam' [dataSource]='dataMenuLeft' [fields]='fields' [placeholder]='text' [highlight]='highlight' ></ejs-autocomplete>
+ 
+                <!-- specifies the template string for the TreeView component-->
+                <ejs-treeview id="group-list" [fields]="fieldList" [showCheckBox]='isShowCheckBox'>
+                    <ng-template #nodeTemplate="" class="treeView e-hover" let-data="">
+                        <div class="veticalCenter " style="height: 50px;">
+                            <img class="aligneLeft" src="https://ej2.syncfusion.com/demos/src/treeview/images/employees/{{data.eimg}}.png" alt="{{data.eimg}}"/>
+                            <div class="aligneLeft">{{data.name}}</div>
+                            <div class="aligneLeft" >{{data.job}}</div>
+                        </div>
+                    </ng-template>
+                </ejs-treeview>    
+               
+ </ejs-sidebar>

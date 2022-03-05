@@ -71,3 +71,28 @@
 .justify:before {
   content: '\e334';
 }
+
+.folder-open:before {
+  content: '\ec04';
+}
+
+
+/*------------------------------------------------*/
+#treeparent {
+  overflow-x: hidden;
+}
+
+.aligneLeft {
+  float: left;
+}
+.veticalCenter{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle !important;
+}
+
+.e-treeview.e-interaction.e-fullrow-wrap .e-text-content:hover {
+  background-color: #e3e3e3;
+}

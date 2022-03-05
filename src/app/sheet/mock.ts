@@ -5,12 +5,12 @@ export class radar {
     public nodeId:number= 1
     public primaryXAxis: any
     public primaryYAxis: any
-    public data: Object[] = []
+    public data: { [key: string]: Object; }[] = []
     public tooltip: any   
     public isChecked: boolean = false
 }
 
-export let DATAMOCK: Object[] = 
+export let DATAMOCK:{ [key: string]: Object; }[] = 
     [{
       id:'2021',
       title: 'Team Enrolamiento',
@@ -51,7 +51,7 @@ export let DATAMOCK: Object[] =
       id:'2022',
         title: 'EXCELENCIA OPERACIONAL',
         icon: "folder",
-        isChecked: true,
+        isChecked: false,
         primaryXAxis: {
           valueType: 'Category',
           labelPlacement: 'OnTicks',        
