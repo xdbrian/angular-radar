@@ -1,17 +1,15 @@
+
 import { Component, OnInit, ViewChild,ViewEncapsulation  } from '@angular/core'
 import { SpreadsheetComponent } from '@syncfusion/ej2-angular-spreadsheet'
 import { SidebarComponent } from '@syncfusion/ej2-angular-navigations'
 import { radar, DATAMOCK } from './mock'
 import { TreeView } from '@syncfusion/ej2-navigations';
-import { TreeViewComponent, NodeCheckEventArgs,Sidebar  } from '@syncfusion/ej2-angular-navigations'
+import { NodeCheckEventArgs  } from '@syncfusion/ej2-angular-navigations'
 //import { AngularFirestore } from '@angular/fire/firestore'
 import { ChartComponent, SeriesModel } from '@syncfusion/ej2-angular-charts';
-import { DataSourceChangedEventArgs } from '@syncfusion/ej2-spreadsheet';
 import { DataManager, Query, Predicate } from '@syncfusion/ej2-data';
 import { enableRipple } from '@syncfusion/ej2-base';
 enableRipple(true);
-import { ListView } from "@syncfusion/ej2-lists";
-
 @Component({
   selector: 'app-sheet',
   templateUrl: './sheet.component.html',
@@ -88,7 +86,6 @@ export class SheetComponent implements OnInit {
 
     console.log('this.dataRadar')
     console.log(this.dataRadar)
-
 
    // this.changeDataSource(this.dataMenuLeft)
 

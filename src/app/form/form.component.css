@@ -137,3 +137,16 @@ body,
 .e-popup.e-popup-open.e-dialog {
     display: inline-table !important;
 }
+
+
+
+form {
+    padding-top: 1rem;
+  }
+  
+  label {
+    display: block;
+    margin: .5em 0;
+    font-weight: bold;
+  }
+  

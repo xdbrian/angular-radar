@@ -3,28 +3,44 @@
       <ejs-dialog cssClass='e-fixed' allowDragging='true'  id='dialog' #templateDialogForm showCloseIcon='true' (open)="dialogOpen()" [height]='height' [target]='targetElement' width='435px' [position]='position'>
 
         <ng-template #header>
-            <img class="img2" src="https://scontent.flim13-1.fna.fbcdn.net/v/t1.6435-9/44065427_285029302347820_4512108133677531136_n.png?_nc_cat=105&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=ZhI0KbE3k6YAX8vJIrO&_nc_ht=scontent.flim13-1.fna&oh=00_AT8QtlYM-oiWXFIwH44PI3YdVSVD5x6d28P1GANL9jEvsA&oe=62492B3B" style="display: inline-block;" alt="header image"/>
-            <div title="Nancy" class="e-icon-settings dlg-template"> INOTAP </div>
+            <img class="img2" src="https://scontent.flim13-1.fna.fbcdn.net/v/t1.6435-9/44065427_285029302347820_4512108133677531136_n.png?_nc_cat=105&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=ZhI0KbE3k6YAX8vJIrO&_nc_ht=scontent.flim13-1.fna&oh=00_AT8QtlYM-oiWXFIwH44PI3YdVSVD5x6d28P1GANL9jEvsA&oe=62492B3B" style="display: inline-block;" alt="header image"/>         <div title="Nancy" class="e-icon-settings dlg-template"> INOTAP </div>
         </ng-template>
         <ng-template #content>
             <div class="dialogContent">
-                <span class="dialogText">
-                    <!-- To render Query Builder. -->
-           <ejs-querybuilder #querybuilder width="70%" [dataSource]="data" [rule]="importRules" [showButtons]="showButtons">
-            <e-columns>
-              <e-column field="EmployeeID" label="Employee ID" type="number"></e-column>
-              <e-column field="FirstName" label="First Name" type="string"></e-column>
-              <e-column field="TitleOfCourtesy" label="Title Of Courtesy" type="boolean" [values]="values"></e-column>
-              <e-column field="Title" label="Title" type="string"></e-column>
-              <e-column field="HireDate" label="Hire Date" type="date" format="dd/MM/yyyy"></e-column>
-              <e-column field="Country" label="Country" type="string"></e-column>
-              <e-column field="City" label="City" type="string"></e-column>
-            </e-columns>
-          </ejs-querybuilder>
-          <button class="e-btn e-primary e-qb-button" (click)="addRule()" >Add Rule</button>
-          <button class="e-btn e-primary e-qbr-button" (click)="addGroup()" >Add Group</button>
-          <button class="e-btn e-primary e-qbr-button" (click)="deleteGroup()" >Delete Group</button>
-                </span>
+                  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                    <span class="dialogText">
+                    <input id="first-name" placeholder="Nombre del radar" type="text" class="e-input" formControlName="radarName" required>                                      
+                    <input id="last-name" type="text" class="e-input" formControlName="description" placeholder="Descripción">
+                    <div formGroupName="address">
+                      <h2>-</h2>
+                      <input id="street" type="text" class="e-input" formControlName="teamType" placeholder="Tipo de equipo">                      
+                    </div>
+                  </span>
+                  <span class="dialogText">
+                    <div formArrayName="dimensiones">
+                      <div *ngFor="let dimension of data.dimensiones; let i=index" >
+                        <h2>Dimensión</h2>       
+                          <input class="e-input" type="text"  placeholder="Nombre de Dimensión">
+                          <div>
+                            <div *ngFor="let pregunta of dimension.preguntas; let j=index">
+                              <input class="e-input" type="text"  placeholder="{{pregunta.pregunta}}">  
+                              <div *ngFor="let opcion of pregunta.opciones; let k=index">
+                                <input class="e-input" type="text"  placeholder="{{opcion.opcion}}"> 
+                              </div>                                                                                      
+                            </div>                            
+                            <button type="button" class="e-control e-btn e-primary sendButton" (click)="addQuestion(i)">+Q</button>        
+                          </div>
+                     </div>
+                      <button type="button" class="e-control e-btn e-primary sendButton" (click)="addDimension()">Agregar Dimensión</button>
+                    </div>
+                    <p>Complete the form to enable button.</p>
+                    <button type="submit" class="e-control e-btn e-primary sendButton" [disabled]="!profileForm.valid">Submit</button>
+                  </span>
+                </form>
+                  <hr>
+                  <p>Form Value: {{ profileForm.value | json }}</p>
+                  <p>Form Status: {{ profileForm.status }}</p>
+                  <button type="button" class="e-control e-btn e-primary sendButton" (click)="updateProfile()">Update Profile</button>                  
             </div>
         </ng-template>
         <ng-template #footerTemplate>

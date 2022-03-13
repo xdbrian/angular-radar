@@ -16,10 +16,8 @@ import { DialogModule } from '@syncfusion/ej2-angular-popups';
 import { ToolbarModule } from '@syncfusion/ej2-angular-navigations';
 //import { YesNoPipe } from './yes-no.pipe';
 import { enableRipple } from '@syncfusion/ej2-base';
-
 enableRipple(true);
-import { QueryBuilderModule } from '@syncfusion/ej2-angular-querybuilder';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -51,7 +49,9 @@ import { QueryBuilderModule } from '@syncfusion/ej2-angular-querybuilder';
 
     ToolbarModule,
 
-    DialogModule
+    DialogModule,
+
+    ReactiveFormsModule
   ],
   providers: [ AreaSeriesService, LineSeriesService, ExportService, ColumnSeriesService, StackingColumnSeriesService, StackingAreaSeriesService, RangeColumnSeriesService, ScatterSeriesService, PolarSeriesService, CategoryService, RadarSeriesService, SplineSeriesService],
   bootstrap: [AppComponent]
